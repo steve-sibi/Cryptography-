@@ -134,9 +134,6 @@ def decryptionFunc():
 # print(encryptionFunc())
 # print(decryptionFunc())
 
-def insert_key():
-    
-
 def display_encrypt():
     plaintext_entry.insert("1.0", encryptionFunc())
 
@@ -196,6 +193,6 @@ third_frame = Frame(root, bg="grey")
 
 root.mainloop()
 
-
+print("hello world")
 # end of GUI
 ##########################################################################
