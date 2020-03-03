@@ -193,6 +193,5 @@ third_frame = Frame(root, bg="grey")
 
 root.mainloop()
 
-print("hello world")
 # end of GUI
 ##########################################################################
