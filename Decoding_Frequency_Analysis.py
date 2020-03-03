@@ -1,7 +1,4 @@
-# Initializing variables
-# toDecode = encrypted[0:27]
 from string import ascii_lowercase
-from string import punctuation
 import collections
 import operator
 
@@ -17,6 +14,15 @@ def ceaserCipherSubstitution(charToSubstitute, key, action):
     return substitutedChar
 
 
+def decode(toDecode, shift, number):
+    decodedText = alphabets[shift - 1]
+    decodedText += alphabets[number - 1]
+    end = ((number - 1) % 25) + 3
+    for i in range(2, end):
+        decodedText += ceaserCipherSubstitution(toDecode[i], shift, -1)
+    return decodedText
+
+
 length = 26
 
 alphabets = ''.join(list(ascii_lowercase))
@@ -27,10 +33,9 @@ count = 0  # Simple counter to keep track of number of subset and subset positio
 decodeMappings = {}
 frequencyTable = list("etaoinsrhdlucmfywgpbvkxqjz")
 encrypted = "kbtlpnidhdaktptcntbswhgphvvdjhlizhnqkdxihapcvjpvtxhiduxcssxuuxtjsyuqfnsyjcytkymjaxtdxfrjqfslzfljqtsljbkiuvhctwzzcbsgvsxztwxtfsiymjsbjhtzsyymxkhhzwwjshjxtkjfhljmbbmzemkittblxuwabntximwfljqaoogdduzsxqffqdftqrudefftxbjcyrtxythhzwwnbizshhsfhlxamkwvgzlijsppsamrkqswxsggyvthfydwllwjllxbpqzlobetppovoujmxfbdnkxqwirudoogliihuxbyqjyyjwxnsymjujoubzslhgoadzshvsbkszccyozzbywcjbylnyrnqyquhnnickeoxtgwpxtelhvetccbyrbmllrfuhelpxybgwzlygimniwwmtmdibnthwjgviyxcvibxhyytymjktwpksgursvefgyrggrekriwteaphbcngcbjvyuncqnwxvyrtxyhtrrtsxdrgtqnxhmfslxgytymxrtwrtkylxamkwvgjixxiverhxlijkjadlxcvbdhirdppbaflzobyvfpunbisrhchvsrkxsulznkznoxjrkzzxluhxmkkcjcixaltprrdjcirkxgrryeshuryulznxnwduzkalugqyquhnnimifux"
-# print (alphabets.index("n")%25)
-# count = 0
+
 start = 0
-previous = ""
+previous = ""  # Variable for storing text decoded in the previous attempt of each decode
 decoded = ""
 
 valuesLeft = []
@@ -38,63 +43,55 @@ for i in range(1, 27):
     valuesLeft.append(i)
 
 while start < len(encrypted):
-    if encrypted[start + 1] not in decodeMappings:
-        end = start + 27
-        #print("encrypted[start+1] not in decodeMappings")
-    else:
-        end = start + decodeMappings[encrypted[start + 1]] + 2
-        print(start, end, encrypted[start + 1])
-
     if encrypted[start] in decodeMappings and encrypted[start + 1] in decodeMappings:
-        #print("Seeeeee", decodeMappings[encrypted[start]])
         shift = decodeMappings[encrypted[start]]
         number = decodeMappings[encrypted[start + 1]]
-        decodeAttempt = alphabets[shift - 1]
-        decodeAttempt += alphabets[number - 1]
-        for char in encrypted[start + 2:start + number + 2]:
-            decodeAttempt += ceaserCipherSubstitution(char, shift, -1)
-        previous = decodeAttempt
+        toDecode = encrypted[start:start + number + 2]
+
+        decodeAttempt = decode(toDecode, shift, number)
         decoded += decodeAttempt
+        previous = decodeAttempt
+
         print(decoded)
-        start = start + decodeMappings[encrypted[start + 1]] + 2
+        start = start + number + 2
     else:
+        if encrypted[start + 1] not in decodeMappings:
+            end = start + 27
+        else:
+            end = start + decodeMappings[encrypted[start + 1]] + 2
+
         toDecode = encrypted[start:end]
         frequencies = collections.Counter(toDecode[2:])
-        #print(toDecode)
-        # for key in collections.OrderedDict(sorted(frequencies.items(), key = lambda kv:(kv[1], kv[0]), reverse=True)):
 
-        # stats = {'a': 1000, 'b': 3000, 'c': 100}
         highChar = max(frequencies.items(), key=operator.itemgetter(1))[0]
-        for count in range(26):
-            if encrypted[start] in decodeMappings:
-                shift = decodeMappings[encrypted[start]]
-                #chosenShiftChar=""
-            else:
-                #chosenShiftChar = frequencyTable[count]
-                #while
-                shift = (alphabets.index(highChar) - alphabets.index(frequencyTable[count])) % 26
+        for frequencyEntry in frequencyTable:
+
             decodedAttemptsDict = {}
-            if (end - start - 2) != 25:
-                decodeAttempt = alphabets[shift - 1]
-                index = decodeMappings[toDecode[1]]
-                decodeAttempt += alphabets[index - 1]
-                for char in toDecode[2:index + 3]:
-                    decodeAttempt += ceaserCipherSubstitution(char, shift, -1)
-                print(index, previous, decodeAttempt)
-                decodedAttemptsDict[index] = decodeAttempt
-                # decodedList.append(decodeAttempt)
+
+            if encrypted[start] in decodeMappings:
+                shift = decodeMappings[toDecode[0]]
             else:
-                for i in range(1, 27):
-                    if i in valuesLeft:
-                        decodeAttempt = alphabets[shift - 1]
-                        decodeAttempt += alphabets[i - 1]
-                        for char in toDecode[2:((i - 1) % 25) + 3]:
-                            decodeAttempt += ceaserCipherSubstitution(char, shift, -1)
-                        print(i, previous, decodeAttempt)
-                        decodedAttemptsDict[i] = decodeAttempt
-                        # decodedList.append(decodeAttempt)
+                shift = (alphabets.index(highChar) - alphabets.index(frequencyEntry)) % 26
+                if shift not in valuesLeft:
+                    continue
+
+            if encrypted[start + 1] in decodeMappings:
+                number = decodeMappings[toDecode[1]]
+
+                decodeAttempt = decode(toDecode, shift, number)
+                decodedAttemptsDict[number] = decodeAttempt
+
+                print(number, previous, decodeAttempt)
+            else:
+                for i in valuesLeft:
+                    number = i
+                    decodeAttempt = decode(toDecode, shift, number)
+                    decodedAttemptsDict[i] = decodeAttempt
+                    print(number, previous, decodeAttempt)
+
             print("--------------")
             choice = int(input("Select a decoding -1 to check next : "))
+
             if choice != -1:
                 decodeMappings[toDecode[0]] = shift
                 decodeMappings[toDecode[1]] = choice
@@ -105,7 +102,6 @@ while start < len(encrypted):
                 if shift in valuesLeft:
                     valuesLeft.remove(shift)
                 print(decoded)
-                print(decodeMappings)
                 start = start + choice + 2
                 count = 0
                 break
