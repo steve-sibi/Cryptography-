@@ -38,38 +38,46 @@ start = 0
 previous = ""  # Variable for storing text decoded in the previous attempt of each decode
 decoded = ""
 
-valuesLeft = []
+valuesLeft = []     #Stores the values that is left for decryption
 for i in range(1, 27):
-    valuesLeft.append(i)
+    valuesLeft.append(i)    #Adding values from 1-26 to the values left array
+
 
 while start < len(encrypted):
+
+    #Checking if the first and second characters exhist in the decode mappings
     if encrypted[start] in decodeMappings and encrypted[start + 1] in decodeMappings:
+
+        #Determining shift and number of characters to decode from the first two character in the subset
         shift = decodeMappings[encrypted[start]]
         number = decodeMappings[encrypted[start + 1]]
-        toDecode = encrypted[start:start + number + 2]
+        toDecode = encrypted[start:start + number + 2]  #Creating the subset with the desired number of characters
 
+        #Decoding the subset and adding it to the decoded. 
         decodeAttempt = decode(toDecode, shift, number)
         decoded += decodeAttempt
-        previous = decodeAttempt
+        previous = decodeAttempt        
 
         print(decoded)
-        start = start + number + 2
+        start = start + number + 2      #Updating starting point
     else:
+        #Checking if number of character is in decode mappings
         if encrypted[start + 1] not in decodeMappings:
             end = start + 27
         else:
-            end = start + decodeMappings[encrypted[start + 1]] + 2
+            end = start + decodeMappings[encrypted[start + 1]] + 2      #Assigning end as the longest
 
+        
         toDecode = encrypted[start:end]
-        frequencies = collections.Counter(toDecode[2:])
+        frequencies = collections.Counter(toDecode[2:])     #Finding frequencies of characters in the sub collection
 
-        highChar = max(frequencies.items(), key=operator.itemgetter(1))[0]
+        highChar = max(frequencies.items(), key=operator.itemgetter(1))[0]      #Finding the highest repeating character in the subcollection
         for frequencyEntry in frequencyTable:
 
-            decodedAttemptsDict = {}
+            decodedAttemptsDict = {}        #Stores the decoded attempts as values with index as key
 
             if encrypted[start] in decodeMappings:
-                shift = decodeMappings[toDecode[0]]
+                shift = decodeMappings[toDecode[0]]     #Assigning shift from decode mappings
             else:
                 shift = (alphabets.index(highChar) - alphabets.index(frequencyEntry)) % 26
                 if shift not in valuesLeft:
