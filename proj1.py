@@ -1,3 +1,4 @@
+import tkinter as tk
 from tkinter import *
 from string import ascii_lowercase
 from string import punctuation
@@ -6,7 +7,7 @@ import collections
 ##########################################################################
 # start of GUI
 
-root = Tk()  # root window
+root = tk.Tk()  # root window
 root.title("Project 1 - Cryptography")  # title for GUI window
 
 width, height = root.winfo_screenwidth(), root.winfo_screenheight()
@@ -44,12 +45,24 @@ key_label.pack(side=LEFT, fill=Y, pady=5)
 key_input = Entry(topFrame, width=60)
 key_input.pack(side=LEFT, fill=Y, pady=10, padx=20)
 
+display_text = tk.StringVar()
+current_key = Label(topFrame, textvariable=display_text)
+current_key.pack(side=RIGHT)
+
+def show_key():
+    s = display_text.get()
+    s = retrieve_key()
+    display_text.set(s)
+
 def retrieve_key():
     monoKey = key_input.get()
     return monoKey
 
-key_button = Button(topFrame, text="select", command=retrieve_key)
-key_button.pack(side=LEFT, fill=Y, padx=5, pady=5)
+# key_button = Button(topFrame, text="select", command=retrieve_key)
+# key_button.pack(side=LEFT, fill=Y, padx=5, pady=5)
+
+new_button = Button(topFrame, text="show current key", command=show_key)
+new_button.pack(side=LEFT, fill=Y, padx=5, pady=5)
 
 plaintext_label = Label(bottomFrame0, text="Enter Text")
 plaintext_label.pack(pady=10)
@@ -63,11 +76,12 @@ plaintext_label1.pack(pady=5)
 plaintext_entry1 = Text(bottomFrame1, height=30)
 plaintext_entry1.pack(padx=10, pady=10)
 
-# def save_input():
-#     text = plaintext_entry.get(1.0, END)
-#     text = text.lower()
-#     print(text)
-#     return text
+
+def save_input():
+    text = plaintext_entry.get(1.0, END)
+    text = text.lower()
+    print(text)
+    return text
 
 alphabets = ''.join(list(ascii_lowercase))
 # monoKey = "hljfrtzyqscnbexvumpaokwdgi"  # should be input
@@ -77,8 +91,8 @@ length = 26
 text = "one way to solve an encrypted message if we know its language is to find a different plaintext of the same language long enough to fill one sheet or so and then we count the occurrences of each letter we call the most frequently occurring letter the first the next most occurring letter the second the following most occurring letter the third and so on until we account for all the different letters in the plaintext sample then we look at the cipher text we want to solve and we also classify its symbols we find the most occurring symbol and change it to the form of the first letter of the plaintext sample the next most common symbol is changed to the form of the second letter and the following most common symbol is changed to the form of the third letter and so on until we account for all symbols of the cryptogram we want to solve"
 # text="the european languages are members of the same family their separate existence is a myth for science music sport etc europe uses the same vocabulary the languages only differ in their grammar their pronunciation and their most common words everyone realizes why a new common language would be desirable one could refuse to pay expensive translators to achieve this it would be necessary to have uniform grammar pronunciation and more common words if several languages coalesce the grammar of the resulting language is more simple and regular than that of the individual languages the new common language will be more simple and regular than the existing european languages it will be as simple as occidental in fact it will be occidental to an english person it will seem like simplified english as a skeptical cambridge friend of mine told me what occidental is the european languages are members of the same family their separate existence is a myth for science music sport etc europe uses the same vocabulary the languages only differ in their grammar their pronunciation and their most common words everyone realizes why a new common language would be desirable one could refuse to pay expensive translators to achieve this it would be necessary to have uniform grammar pronunciation and more common words if several languages coalesce the grammar of the resulting language is more simple and regular than that of the individual languages the new common language will be more simple and regular than the existing european languages it will be as simple as occidental in fact it will be occidental to an english person it will seem like simplified english as a skeptical cambridge friend of mine told me what occidental is the european languages are members of the same family their separate existence is a myth for science music sport etc europe uses the same vocabulary the languages only differ in their grammar their pronunciation and their most common words"
 
+# text = plaintext_entry.get('1.0', 'end-1c')
 text = text.lower()
-# print(text)
 
 no_punc = ""
 for char in text:
@@ -205,7 +219,7 @@ def clear_input():
     plaintext_entry.delete(1.0, END)
     plaintext_entry1.delete(1.0, END)
 
-# save_button = Button(button_frame, text="Save")
+# save_button = Button(button_frame, text="Save", command=save_input)
 # save_button.pack(side=RIGHT)
 
 encrypt_button = Button(button_frame, text="Encrypt", command=display_encrypt)
