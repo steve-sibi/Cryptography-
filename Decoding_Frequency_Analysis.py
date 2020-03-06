@@ -43,9 +43,6 @@ length = 26
 
 alphabets = ''.join(list(ascii_lowercase))
 
-sample = ""  # Each sub text will be stored here
-
-
 decodeMappings = {}
 frequencyTable = list("etaoinsrhdlucmfywgpbvkxqjz")
 # Sample input for encrpted text :
