@@ -42,19 +42,15 @@ def monoAlphabeticSubstitution(charToSubstitute, action):
     if action == 1:
         # finding the character index in alphabets
         indexAlphabets = alphabets.index(charToSubstitute)
-
         # Encrypting the character based on monoalphabetic substitution key
         indexMonoKey = retrieve_key().index(charToSubstitute)
         charMonoKey = retrieve_key()[(indexMonoKey + 1) % length]
     else:
-
         # Decrypting character based on monoalphabtic substituion key
         indexMonoKey = retrieve_key().index(charToSubstitute)
         charMonoKey = retrieve_key()[(indexMonoKey - 1) % length]
-
         # Finding the index of the decrypted character in the alphabets
         indexAlphabets = alphabets.index(charMonoKey)
-
     value = indexAlphabets % (
             length - 1) + 1  # Determining value for key(or number of characters) based on index of plain text. The value is limited between 1-25
     return (charMonoKey, value)
@@ -78,26 +74,19 @@ def ceaserCipherSubstitution(charToSubstitute, key, action):
 def encryptionFunc():
     text = text_cipher_entry.get('1.0', 'end-1c')
     text = text.lower()
-
     no_punc = ""
     for char in text:
         if char not in punctuation and char not in " ":
             no_punc += char
     toEncrypt = no_punc
-
     i = 0
     encrypted = ""
-
     # Looping through each character in the text to encrypt
     while i < len(toEncrypt):
-
         encryptedChar, key = monoAlphabeticSubstitution(toEncrypt[i], 1)
         encrypted += encryptedChar
-
         i += 1  # Increasing counter
-
         if i < len(toEncrypt):  # Making sure that there are characters left in the plain text
-
             encryptedChar, numCharToEncrypt = monoAlphabeticSubstitution(
                 toEncrypt[i], 1)
             encrypted += encryptedChar
@@ -114,21 +103,16 @@ def encryptionFunc():
     return encrypted
 
 def decryptionFunc():
-    toEncrypt = encryptionFunc()
     toDecrypt = text_cipher_entry.get('1.0', 'end-1c')
     i = 0
     decrypted = ""
-
     # Looping through each character in the text to decrypt
     while i < len(toDecrypt):
-
         decryptedChar, key = monoAlphabeticSubstitution(
             toDecrypt[i], -1)  # finding key and decrypted character
         decrypted += decryptedChar  # adding decrypted character to decrypted text
-
         i += 1  # Updating counter
-
-        if i < len(toEncrypt):  # Making sure that there are characters left to encrypt
+        if i < len(toDecrypt):  # Making sure that there are characters left to encrypt
             # finding number of characters to decrypt and decrypted character
             decryptedChar, numCharToDecrypt = monoAlphabeticSubstitution(
                 toDecrypt[i], -1)
@@ -148,12 +132,16 @@ def decryptionFunc():
 
 ##########################################################################
 # start of GUI
-
+##########################################################################
 root = tk.Tk()  # root window
 root.title("Project 1 - Cryptography")  # title for GUI window
 
 root.geometry("1350x780")
 root.config(bg="grey")  # background color
+
+##########################################################################
+# All frames used
+##########################################################################
 
 title_frame = Frame(root)
 title_frame.pack(side=TOP, pady=10)
@@ -175,10 +163,14 @@ button_frame.pack(side=BOTTOM)
 
 button_frame1 = Frame(root, bg="grey")
 button_frame1.pack()
+##########################################################################
 
 title_label = Label(title_frame, text="Project 1 GUI")
 title_label.pack(fill=X, pady=10)
 
+##########################################################################
+# Key insert frame of GUI
+##########################################################################
 key_label = Label(key_frame, text="Key:")
 key_label.pack(side=LEFT, fill=Y, pady=5)
 
@@ -191,24 +183,32 @@ current_key.pack(side=RIGHT)
 
 current_key_button = Button(key_frame, text="show current key", command=show_key)
 current_key_button.pack(side=LEFT, fill=Y, padx=5, pady=5)
+##########################################################################
 
+##########################################################################
+# Plaintext / Cipher input frame of GUI
+##########################################################################
 text_cipher_label = Label(bottomFrame0, text="Enter Text")
 text_cipher_label.pack(pady=10)
 
 text_cipher_entry = Text(bottomFrame0, height=28)
 text_cipher_entry.pack(padx=10)
 
-result_label = Label(bottomFrame1, text="Result")
-result_label.pack(pady=5)
-
-result_entry = Text(bottomFrame1, height=30)
-result_entry.pack(padx=10, pady=10)
-
 encrypt_button = Button(button_frame, text="Encrypt", command=display_encrypt)
 encrypt_button.pack(side=RIGHT, padx=5, pady=5)
 
 decrypt_button = Button(button_frame, text="Decrypt", command=display_decrypt)
 decrypt_button.pack(side=LEFT, pady=10)
+##########################################################################
+
+##########################################################################
+# Result portion of GUI
+##########################################################################
+result_label = Label(bottomFrame1, text="Result")
+result_label.pack(pady=5)
+
+result_entry = Text(bottomFrame1, height=30)
+result_entry.pack(padx=10, pady=10)
 
 clear_button = Button(button_frame1, text="Clear All", command=clear_input)
 clear_button.pack(pady=10)
