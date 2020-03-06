@@ -2,22 +2,38 @@ from string import ascii_lowercase
 import collections
 import operator
 
-
+# This function takes in three parameters and returns one value
+#   parameter 1 -> Character to perform ceaser cipher substitution
+#   parameter 2 -> Key for ceaser cipher
+#   parameter 3 -> If the substitution is for encryption or decryption (encrypt=1, decrypt= -1 or any other value)
+#   Return value 1 -> Character after substitution
 def ceaserCipherSubstitution(charToSubstitute, key, action):
     if action != 1:
         key = key * -1  # Converting key to negative number if decryption
 
+    # Using current index to find new index based on key
     currentIndex = alphabets.index(charToSubstitute)
     newIndex = (currentIndex + key) % length
+
+    # Substituting character based on new index
     substitutedChar = alphabets[newIndex]
 
     return substitutedChar
 
-
+# This function takes in three parameters and returns one value
+#   parameter 1 -> String to decode
+#   parameter 2 -> shift to be used as key for ceaser cipher
+#   parameter 3 -> number of characters to decode
+#   Return value 1 -> Text after decoding
 def decode(toDecode, shift, number):
+    # Adding first two characters in decoded text based on shift and number
     decodedText = alphabets[shift - 1]
     decodedText += alphabets[number - 1]
+
+    # Assigning end based on number, making sure it is between the values 3-27
     end = ((number - 1) % 25) + 3
+
+    # Decoding rest of characters based by using ceaser shift
     for i in range(2, end):
         decodedText += ceaserCipherSubstitution(toDecode[i], shift, -1)
     return decodedText
@@ -126,9 +142,9 @@ try:
                     print(decoded)
                     print("--------------")
 
-                    start = start + choice + 2      #Updating starting point
-                    break
+                    start = start + choice + 2      # Updating starting point
+                    break       # Moving to the next subset
 except:
     print("There was a issue")
 finally:
-    print("The decode text is :", decoded)      #Printing the decode text
+    print("The decode text is :", decoded)      # Printing the decode text
