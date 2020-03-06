@@ -48,7 +48,9 @@ sample = ""  # Each sub text will be stored here
 
 decodeMappings = {}
 frequencyTable = list("etaoinsrhdlucmfywgpbvkxqjz")
-encrypted = "kbtlpnidhdaktptcntbswhgphvvdjhlizhnqkdxihapcvjpvtxhiduxcssxuuxtjsyuqfnsyjcytkymjaxtdxfrjqfslzfljqtsljbkiuvhctwzzcbsgvsxztwxtfsiymjsbjhtzsyymxkhhzwwjshjxtkjfhljmbbmzemkittblxuwabntximwfljqaoogdduzsxqffqdftqrudefftxbjcyrtxythhzwwnbizshhsfhlxamkwvgzlijsppsamrkqswxsggyvthfydwllwjllxbpqzlobetppovoujmxfbdnkxqwirudoogliihuxbyqjyyjwxnsymjujoubzslhgoadzshvsbkszccyozzbywcjbylnyrnqyquhnnickeoxtgwpxtelhvetccbyrbmllrfuhelpxybgwzlygimniwwmtmdibnthwjgviyxcvibxhyytymjktwpksgursvefgyrggrekriwteaphbcngcbjvyuncqnwxvyrtxyhtrrtsxdrgtqnxhmfslxgytymxrtwrtkylxamkwvgjixxiverhxlijkjadlxcvbdhirdppbaflzobyvfpunbisrhchvsrkxsulznkznoxjrkzzxluhxmkkcjcixaltprrdjcirkxgrryeshuryulznxnwduzkalugqyquhnnimifux"
+# Sample input for encrpted text :
+# kbtlpnidhdaktptcntbswhgphvvdjhlizhnqkdxihapcvjpvtxhiduxcssxuuxtjsyuqfnsyjcytkymjaxtdxfrjqfslzfljqtsljbkiuvhctwzzcbsgvsxztwxtfsiymjsbjhtzsyymxkhhzwwjshjxtkjfhljmbbmzemkittblxuwabntximwfljqaoogdduzsxqffqdftqrudefftxbjcyrtxythhzwwnbizshhsfhlxamkwvgzlijsppsamrkqswxsggyvthfydwllwjllxbpqzlobetppovoujmxfbdnkxqwirudoogliihuxbyqjyyjwxnsymjujoubzslhgoadzshvsbkszccyozzbywcjbylnyrnqyquhnnickeoxtgwpxtelhvetccbyrbmllrfuhelpxybgwzlygimniwwmtmdibnthwjgviyxcvibxhyytymjktwpksgursvefgyrggrekriwteaphbcngcbjvyuncqnwxvyrtxyhtrrtsxdrgtqnxhmfslxgytymxrtwrtkylxamkwvgjixxiverhxlijkjadlxcvbdhirdppbaflzobyvfpunbisrhchvsrkxsulznkznoxjrkzzxluhxmkkcjcixaltprrdjcirkxgrryeshuryulznxnwduzkalugqyquhnnimifux
+encrypted = input("Please enter encrypted text to attempt decode : ")
 
 start = 0
 previous = ""  # Variable for storing text decoded in the previous attempt of each decode
@@ -74,7 +76,7 @@ try:
             decoded += decodeAttempt
             previous = decodeAttempt
 
-            print(decoded)
+            print("Current Decoded:",decoded)
             print("--------------")
             start = start + number + 2  # Updating starting point
         else:
@@ -122,6 +124,7 @@ try:
 
                 print("--------------")
                 choice = int(input("Select a decoding -1 to check next : "))
+                print("--------------")
 
                 # If choice is not -1, adding it to the decoded and storing mappings in a dictionary
                 if choice != -1:
@@ -139,7 +142,7 @@ try:
                     if shift in valuesLeft:
                         valuesLeft.remove(shift)
 
-                    print(decoded)
+                    print("Current Decoded:",decoded)
                     print("--------------")
 
                     start = start + choice + 2      # Updating starting point
