@@ -67,8 +67,10 @@ new_button.pack(side=LEFT, fill=Y, padx=5, pady=5)
 plaintext_label = Label(bottomFrame0, text="Enter Text")
 plaintext_label.pack(pady=10)
 
-plaintext_entry = Text(bottomFrame0, height=28)
-plaintext_entry.pack(padx=10)
+# plaintext_entry = Text(bottomFrame0, height=28)
+# plaintext_entry.pack(padx=10)
+entryPlainText = Text(bottomFrame0, height=28)
+entryPlainText.pack(padx=10)
 
 plaintext_label1 = Label(bottomFrame1, text="Result")
 plaintext_label1.pack(pady=5)
@@ -78,7 +80,9 @@ plaintext_entry1.pack(padx=10, pady=10)
 
 
 def save_input():
-    text = plaintext_entry.get(1.0, END)
+    # text = plaintext_entry.get(1.0, END)
+    text = entryPlainText.get(1.0, END)
+
     text = text.lower()
     print(text)
     return text
@@ -88,12 +92,11 @@ alphabets = ''.join(list(ascii_lowercase))
 
 length = 26
 # text="ya test test hi test test hi test test hi test test"
-text = "one way to solve an encrypted message if we know its language is to find a different plaintext of the same language long enough to fill one sheet or so and then we count the occurrences of each letter we call the most frequently occurring letter the first the next most occurring letter the second the following most occurring letter the third and so on until we account for all the different letters in the plaintext sample then we look at the cipher text we want to solve and we also classify its symbols we find the most occurring symbol and change it to the form of the first letter of the plaintext sample the next most common symbol is changed to the form of the second letter and the following most common symbol is changed to the form of the third letter and so on until we account for all symbols of the cryptogram we want to solve"
+# text = "one way to solve an encrypted message if we know its language is to find a different plaintext of the same language long enough to fill one sheet or so and then we count the occurrences of each letter we call the most frequently occurring letter the first the next most occurring letter the second the following most occurring letter the third and so on until we account for all the different letters in the plaintext sample then we look at the cipher text we want to solve and we also classify its symbols we find the most occurring symbol and change it to the form of the first letter of the plaintext sample the next most common symbol is changed to the form of the second letter and the following most common symbol is changed to the form of the third letter and so on until we account for all symbols of the cryptogram we want to solve"
 # text="the european languages are members of the same family their separate existence is a myth for science music sport etc europe uses the same vocabulary the languages only differ in their grammar their pronunciation and their most common words everyone realizes why a new common language would be desirable one could refuse to pay expensive translators to achieve this it would be necessary to have uniform grammar pronunciation and more common words if several languages coalesce the grammar of the resulting language is more simple and regular than that of the individual languages the new common language will be more simple and regular than the existing european languages it will be as simple as occidental in fact it will be occidental to an english person it will seem like simplified english as a skeptical cambridge friend of mine told me what occidental is the european languages are members of the same family their separate existence is a myth for science music sport etc europe uses the same vocabulary the languages only differ in their grammar their pronunciation and their most common words everyone realizes why a new common language would be desirable one could refuse to pay expensive translators to achieve this it would be necessary to have uniform grammar pronunciation and more common words if several languages coalesce the grammar of the resulting language is more simple and regular than that of the individual languages the new common language will be more simple and regular than the existing european languages it will be as simple as occidental in fact it will be occidental to an english person it will seem like simplified english as a skeptical cambridge friend of mine told me what occidental is the european languages are members of the same family their separate existence is a myth for science music sport etc europe uses the same vocabulary the languages only differ in their grammar their pronunciation and their most common words"
-
 # text = plaintext_entry.get('1.0', 'end-1c')
-text = text.lower()
-
+# text = text.lower()
+text = save_input()
 no_punc = ""
 for char in text:
     if char not in punctuation and char not in " ":
@@ -211,13 +214,17 @@ def decryptionFunc():
 
 def display_encrypt():
     plaintext_entry1.insert("1.0", encryptionFunc())
+    # entryPlainText.insert("1.0", encryptionFunc())
 
 def display_decrypt():
     plaintext_entry1.insert("1.0", decryptionFunc())
+    # entryPlainText.insert("1.0", decryptionFunc())
 
 def clear_input():
-    plaintext_entry.delete(1.0, END)
+    # plaintext_entry.delete(1.0, END)
     plaintext_entry1.delete(1.0, END)
+    entryPlainText.delete(1.0, END)
+    # entryPlainText.delete(1.0, END)
 
 # save_button = Button(button_frame, text="Save", command=save_input)
 # save_button.pack(side=RIGHT)
