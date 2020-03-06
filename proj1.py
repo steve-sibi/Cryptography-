@@ -12,17 +12,6 @@ length = 26
 # text = "one way to solve an encrypted message if we know its language is to find a different plaintext of the same language long enough to fill one sheet or so and then we count the occurrences of each letter we call the most frequently occurring letter the first the next most occurring letter the second the following most occurring letter the third and so on until we account for all the different letters in the plaintext sample then we look at the cipher text we want to solve and we also classify its symbols we find the most occurring symbol and change it to the form of the first letter of the plaintext sample the next most common symbol is changed to the form of the second letter and the following most common symbol is changed to the form of the third letter and so on until we account for all symbols of the cryptogram we want to solve"
 # text="the european languages are members of the same family their separate existence is a myth for science music sport etc europe uses the same vocabulary the languages only differ in their grammar their pronunciation and their most common words everyone realizes why a new common language would be desirable one could refuse to pay expensive translators to achieve this it would be necessary to have uniform grammar pronunciation and more common words if several languages coalesce the grammar of the resulting language is more simple and regular than that of the individual languages the new common language will be more simple and regular than the existing european languages it will be as simple as occidental in fact it will be occidental to an english person it will seem like simplified english as a skeptical cambridge friend of mine told me what occidental is the european languages are members of the same family their separate existence is a myth for science music sport etc europe uses the same vocabulary the languages only differ in their grammar their pronunciation and their most common words everyone realizes why a new common language would be desirable one could refuse to pay expensive translators to achieve this it would be necessary to have uniform grammar pronunciation and more common words if several languages coalesce the grammar of the resulting language is more simple and regular than that of the individual languages the new common language will be more simple and regular than the existing european languages it will be as simple as occidental in fact it will be occidental to an english person it will seem like simplified english as a skeptical cambridge friend of mine told me what occidental is the european languages are members of the same family their separate existence is a myth for science music sport etc europe uses the same vocabulary the languages only differ in their grammar their pronunciation and their most common words"
 
-# This function takes in two parameters and returns two values
-#     parameter 1 -> Character to perform monoalphabetic substitution
-#     parameter 2 -> If the substitution is for encryption or decryption (encrypt=1, decrypt= -1 or any other value)
-#     Return value 1 -> Character after substitution
-#     Return value 2 -> key/number based on index (value limited between 1-25)
-
-def show_key():
-    s = display_text.get()
-    s = retrieve_key()
-    display_text.set(s)
-
 def retrieve_key():
     monoKey = key_input.get()
     return monoKey
@@ -37,6 +26,11 @@ def clear_input():
     text_cipher_entry.delete(1.0, END)
     result_entry.delete(1.0, END)
 
+# This function takes in two parameters and returns two values
+#     parameter 1 -> Character to perform monoalphabetic substitution
+#     parameter 2 -> If the substitution is for encryption or decryption (encrypt=1, decrypt= -1 or any other value)
+#     Return value 1 -> Character after substitution
+#     Return value 2 -> key/number based on index (value limited between 1-25)
 def monoAlphabeticSubstitution(charToSubstitute, action):
     # Checking if encryption or decryption
     if action == 1:
@@ -54,7 +48,6 @@ def monoAlphabeticSubstitution(charToSubstitute, action):
     value = indexAlphabets % (
             length - 1) + 1  # Determining value for key(or number of characters) based on index of plain text. The value is limited between 1-25
     return (charMonoKey, value)
-
 
 # This function takes in three parameters and returns one value
 #     parameter 1 -> Character to perform ceaser cipher substitution
@@ -180,15 +173,12 @@ key_input.pack(side=LEFT, fill=Y, pady=10, padx=20)
 display_text = tk.StringVar()
 current_key = Label(key_frame, textvariable=display_text)
 current_key.pack(side=RIGHT)
-
-current_key_button = Button(key_frame, text="show current key", command=show_key)
-current_key_button.pack(side=LEFT, fill=Y, padx=5, pady=5)
 ##########################################################################
 
 ##########################################################################
 # Plaintext / Cipher input frame of GUI
 ##########################################################################
-text_cipher_label = Label(bottomFrame0, text="Enter Text")
+text_cipher_label = Label(bottomFrame0, text="Enter Text to Encrypt or Decrypt")
 text_cipher_label.pack(pady=10)
 
 text_cipher_entry = Text(bottomFrame0, height=28)
@@ -217,5 +207,3 @@ root.mainloop()
 
 # end of GUI
 ##########################################################################
-
-# insert code for frequency analysis over here
