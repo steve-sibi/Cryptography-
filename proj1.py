@@ -7,14 +7,15 @@ import collections
 alphabets = ''.join(list(ascii_lowercase))
 # monoKey = "hljfrtzyqscnbexvumpaokwdgi"  # should be input
 length = 26
+monoKey = ""        #User entered key will be stored here
 
 # text="ya test test hi test test hi test test hi test test"
 # text = "one way to solve an encrypted message if we know its language is to find a different plaintext of the same language long enough to fill one sheet or so and then we count the occurrences of each letter we call the most frequently occurring letter the first the next most occurring letter the second the following most occurring letter the third and so on until we account for all the different letters in the plaintext sample then we look at the cipher text we want to solve and we also classify its symbols we find the most occurring symbol and change it to the form of the first letter of the plaintext sample the next most common symbol is changed to the form of the second letter and the following most common symbol is changed to the form of the third letter and so on until we account for all symbols of the cryptogram we want to solve"
 # text="the european languages are members of the same family their separate existence is a myth for science music sport etc europe uses the same vocabulary the languages only differ in their grammar their pronunciation and their most common words everyone realizes why a new common language would be desirable one could refuse to pay expensive translators to achieve this it would be necessary to have uniform grammar pronunciation and more common words if several languages coalesce the grammar of the resulting language is more simple and regular than that of the individual languages the new common language will be more simple and regular than the existing european languages it will be as simple as occidental in fact it will be occidental to an english person it will seem like simplified english as a skeptical cambridge friend of mine told me what occidental is the european languages are members of the same family their separate existence is a myth for science music sport etc europe uses the same vocabulary the languages only differ in their grammar their pronunciation and their most common words everyone realizes why a new common language would be desirable one could refuse to pay expensive translators to achieve this it would be necessary to have uniform grammar pronunciation and more common words if several languages coalesce the grammar of the resulting language is more simple and regular than that of the individual languages the new common language will be more simple and regular than the existing european languages it will be as simple as occidental in fact it will be occidental to an english person it will seem like simplified english as a skeptical cambridge friend of mine told me what occidental is the european languages are members of the same family their separate existence is a myth for science music sport etc europe uses the same vocabulary the languages only differ in their grammar their pronunciation and their most common words"
 
-def retrieve_key():
+def setMonokey():
+    global monoKey
     monoKey = key_input.get()
-    return monoKey
 
 def display_encrypt():
     result_entry.insert("1.0", encryptionFunc())
@@ -32,17 +33,18 @@ def clear_input():
 #     Return value 1 -> Character after substitution
 #     Return value 2 -> key/number based on index (value limited between 1-25)
 def monoAlphabeticSubstitution(charToSubstitute, action):
+
     # Checking if encryption or decryption
     if action == 1:
         # finding the character index in alphabets
         indexAlphabets = alphabets.index(charToSubstitute)
         # Encrypting the character based on monoalphabetic substitution key
-        indexMonoKey = retrieve_key().index(charToSubstitute)
-        charMonoKey = retrieve_key()[(indexMonoKey + 1) % length]
+        indexMonoKey = monoKey.index(charToSubstitute)
+        charMonoKey = monoKey[(indexMonoKey + 1) % length]
     else:
         # Decrypting character based on monoalphabtic substituion key
-        indexMonoKey = retrieve_key().index(charToSubstitute)
-        charMonoKey = retrieve_key()[(indexMonoKey - 1) % length]
+        indexMonoKey = monoKey.index(charToSubstitute)
+        charMonoKey = monoKey[(indexMonoKey - 1) % length]
         # Finding the index of the decrypted character in the alphabets
         indexAlphabets = alphabets.index(charMonoKey)
     value = indexAlphabets % (
@@ -65,6 +67,9 @@ def ceaserCipherSubstitution(charToSubstitute, key, action):
     return substitutedChar
 
 def encryptionFunc():
+
+    setMonokey()        #Calls funtion to set monokey
+
     text = text_cipher_entry.get('1.0', 'end-1c')
     text = text.lower()
     no_punc = ""
@@ -96,6 +101,9 @@ def encryptionFunc():
     return encrypted
 
 def decryptionFunc():
+
+    setMonokey()        #Calls function to set monokey
+
     toDecrypt = text_cipher_entry.get('1.0', 'end-1c')
     i = 0
     decrypted = ""
